@@ -12,6 +12,7 @@
   "rules": {
     "indent": ["error", 2],
     "semi": ["error", "never"],
-    "@typescript-eslint/no-var-requires": "off"
+    "@typescript-eslint/no-var-requires": "off",
+    "@typescript-eslint/no-namespace": "off"
   }
 }
