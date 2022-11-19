@@ -1,2 +1,4 @@
 import { addAlias } from 'module-alias'
-addAlias('@', '/build')
+import { resolve } from 'path'
+
+addAlias('@', resolve('build'))
