@@ -1,3 +1,6 @@
+import { mock, MockProxy } from 'jest-mock-extended'
+
+
 class User {
 
 }
@@ -25,11 +28,18 @@ namespace CompanyNamespace {
 }
 
 class CompanyCreationService {
+  constructor (private readonly companyRepository: CompanyRepository) {}
+
   create ({ company }: CompanyNamespace.parameters): void {
     if (company.companyName === '' || company.companyName === undefined || company.companyName === null) {
       throw new CompanyCreationError('It should have a name')
     }
+    this.companyRepository.createCompany(company)
   }
+}
+
+interface CompanyRepository {
+  createCompany (company: Company): void
 }
 
 class CompanyCreationError extends Error {
@@ -40,9 +50,14 @@ class CompanyCreationError extends Error {
 
 describe('CompanyCreationService', () => {
   let sut: CompanyCreationService
+  let companyRepository: MockProxy<CompanyRepository>
+
+  beforeAll(() => {
+    companyRepository = mock()
+  })
 
   beforeEach(() => {
-    sut = new CompanyCreationService()
+    sut = new CompanyCreationService(companyRepository)
   })
 
   it('should throw an error if the Company have an empty name', () => {
@@ -61,5 +76,13 @@ describe('CompanyCreationService', () => {
     const company = new Company(null as unknown as string, new User())
 
     expect(() => sut.create({ company })).toThrow(new CompanyCreationError('It should have a name'))
+  })
+
+  it('should call CompanyRepository to save a new Company', () => {
+    const company = new Company('any_company_name', new User())
+
+    sut.create({ company })
+
+    expect(companyRepository.createCompany).toHaveBeenCalledWith(company)
   })
 })
