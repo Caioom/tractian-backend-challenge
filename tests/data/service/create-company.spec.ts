@@ -40,6 +40,6 @@ describe('CompanyCreationService', () => {
 
     sut.create({ company })
 
-    expect(companyRepository.createCompany).toHaveBeenCalledWith(company)
+    expect(companyRepository.create).toHaveBeenCalledWith(company)
   })
 })
