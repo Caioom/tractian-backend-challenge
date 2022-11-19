@@ -1,2 +1,2 @@
-const moduleAlias = require('module-alias')
-moduleAlias.addAliases({ '@': '/src' })
+import { addAlias } from 'module-alias'
+addAlias('@', '/build')
