@@ -1,1 +1,1 @@
-export * from './company-creation'
+export * from './company'
