@@ -1,20 +1,8 @@
-import { CreateCompanyRepository } from '@/data/contracts'
 import { Company, User } from '@/domain/models'
+import { CreateCompanyRepoMongoDb } from '@/infra/repository'
 
 import { MongoClient, Db as MongoDb, Collection as MongoCollection} from 'mongodb'
 import { mock, MockProxy } from 'jest-mock-extended'
-
-export class CreateCompanyRepoMongoDb implements CreateCompanyRepository {
-  constructor (private readonly mongoClient: MongoClient) {}
-
-  async create (company: Company): Promise<string | undefined> {
-    const result = await this.mongoClient.db('tractian-challenge').collection('companies').insertOne(company)
-    if (result) {
-      return result.insertedId.toString()
-    }
-    return undefined
-  }
-}
 
 describe('CreateCompanyRepoMongoDb', () => {
   let mongoClient: MockProxy<MongoClient>
