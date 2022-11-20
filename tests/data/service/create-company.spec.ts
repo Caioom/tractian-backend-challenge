@@ -1,13 +1,13 @@
 import { CompanyCreationService } from '@/data/service'
 import { Company, User } from '@/domain/models'
 import { CompanyCreationError } from '@/data/error'
-import { CompanyRepository, ObjectIdGenerator } from '@/data/contracts'
+import { FindCompanyRepository, CreateCompanyRepository, ObjectIdGenerator } from '@/data/contracts'
 
 import { mock, MockProxy } from 'jest-mock-extended'
 
 describe('CompanyCreationService', () => {
   let sut: CompanyCreationService
-  let companyRepository: MockProxy<CompanyRepository>
+  let companyRepository: MockProxy<CreateCompanyRepository & FindCompanyRepository>
   let objectIdGenerator: MockProxy<ObjectIdGenerator>
   let company: Company
 
@@ -21,7 +21,7 @@ describe('CompanyCreationService', () => {
     sut = new CompanyCreationService(companyRepository, objectIdGenerator)
   })
 
-  it('should call CompanyRepository to save a new Company', async () => {
+  it('should call CreateCompanyRepository to save a new Company', async () => {
     await sut.create({ company })
 
     expect(companyRepository.create).toHaveBeenCalledWith(company)

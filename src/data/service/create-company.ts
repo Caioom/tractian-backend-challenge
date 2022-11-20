@@ -1,10 +1,10 @@
 import { CreateCompany } from '@/domain/feature'
 import { CompanyCreationError } from '@/data/error'
-import { CompanyRepository, ObjectIdGenerator } from '@/data/contracts'
+import { CreateCompanyRepository, FindCompanyRepository, ObjectIdGenerator } from '@/data/contracts'
 
 export class CompanyCreationService implements CreateCompany {
   constructor (
-    private readonly companyRepository: CompanyRepository,
+    private readonly companyRepository: CreateCompanyRepository & FindCompanyRepository,
     private readonly objectIdGenerator: ObjectIdGenerator
   ) {}
 
