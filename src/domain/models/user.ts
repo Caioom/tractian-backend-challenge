@@ -1,9 +1,7 @@
 export class User {
-  name?: string
-  companyId?: string
+  name: string
 
-  constructor (name?: string, companyId?: string) {
+  constructor (name: string) {
     this.name = name
-    this.companyId = companyId
   }
 }

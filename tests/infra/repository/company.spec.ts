@@ -21,11 +21,11 @@ describe('CreateCompanyRepoMongoDb', () => {
 
   beforeEach(() => {
     sut = new CreateCompanyRepoMongoDb(mongoClient)
-    company = new Company('any_company_name', new User())
+    company = new Company('any_company_name', new User('any_name'))
   })
 
   it('should return undefined for failure on insert', async () => {
-    const result = await sut.create(new Company('any_company_name', new User()))
+    const result = await sut.create(new Company('any_company_name', new User('any_name')))
 
     expect(result).toBeUndefined()
   })
