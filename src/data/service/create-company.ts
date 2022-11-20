@@ -1,11 +1,10 @@
 import { CreateCompany } from '@/domain/feature'
 import { CompanyCreationError } from '@/data/error'
-import { CreateCompanyRepository, FindCompanyRepository, ObjectIdGenerator } from '@/data/contracts'
+import { CreateCompanyRepository, FindCompanyRepository } from '@/data/contracts'
 
 export class CompanyCreationService implements CreateCompany {
   constructor (
-    private readonly companyRepository: CreateCompanyRepository & FindCompanyRepository,
-    private readonly objectIdGenerator: ObjectIdGenerator
+    private readonly companyRepository: CreateCompanyRepository & FindCompanyRepository
   ) {}
 
   async create ({ company }: CreateCompany.parameters): Promise<any> {
@@ -13,7 +12,6 @@ export class CompanyCreationService implements CreateCompany {
     if (existingCompany) {
       throw new CompanyCreationError('This company name is already in use')
     }
-    this.objectIdGenerator.fillUpId(company)
     this.companyRepository.create(company)
   }
 }

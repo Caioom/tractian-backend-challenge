@@ -1,24 +1,22 @@
 import { CompanyCreationService } from '@/data/service'
 import { Company, User } from '@/domain/models'
 import { CompanyCreationError } from '@/data/error'
-import { FindCompanyRepository, CreateCompanyRepository, ObjectIdGenerator } from '@/data/contracts'
+import { FindCompanyRepository, CreateCompanyRepository } from '@/data/contracts'
 
 import { mock, MockProxy } from 'jest-mock-extended'
 
 describe('CompanyCreationService', () => {
   let sut: CompanyCreationService
   let companyRepository: MockProxy<CreateCompanyRepository & FindCompanyRepository>
-  let objectIdGenerator: MockProxy<ObjectIdGenerator>
   let company: Company
 
   beforeAll(() => {
     companyRepository = mock()
-    objectIdGenerator = mock()
     company = new Company('any_company_name', new User())
   })
 
   beforeEach(() => {
-    sut = new CompanyCreationService(companyRepository, objectIdGenerator)
+    sut = new CompanyCreationService(companyRepository)
   })
 
   it('should call CreateCompanyRepository to save a new Company', async () => {
@@ -34,11 +32,5 @@ describe('CompanyCreationService', () => {
     const promise = sut.create({ company: newCompany })
 
     await expect(promise).rejects.toThrow(new CompanyCreationError('This company name is already in use'))
-  })
-
-  it('should create a random uuid for company', async () => {
-    await sut.create({ company })
-
-    expect(objectIdGenerator.fillUpId).toHaveBeenCalledWith(company)
   })
 })
