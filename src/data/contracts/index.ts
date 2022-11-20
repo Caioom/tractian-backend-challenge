@@ -1,2 +1,2 @@
-export * from './company'
-export * from './object-id'
+export * from './repository/company'
+export * from '../../domain/feature/user'
