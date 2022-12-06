@@ -22,7 +22,7 @@ export class CreateCompanyController {
       return { statusCode: '400', message: 'Insert a valid name for your company' }
     }
     const company = new Company(httpRequest.company_name, httpRequest.user)
-    await this.companyService.create({ company })
+    this.companyService.create({ company })
     return { statusCode: '200', message: 'ok' }
   }
 }
