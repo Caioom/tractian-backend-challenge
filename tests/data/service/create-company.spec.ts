@@ -12,7 +12,7 @@ describe('CompanyCreationService', () => {
 
   beforeAll(() => {
     companyRepository = mock()
-    company = new Company('any_company_name', new User())
+    company = new Company('any_company_name', new User('any_name'))
   })
 
   beforeEach(() => {
@@ -26,7 +26,7 @@ describe('CompanyCreationService', () => {
   })
 
   it('should not save a new company if there is another one with the same name', async () => {
-    const newCompany = new Company('any_company_name', new User())
+    const newCompany = new Company('any_company_name', new User('any_name'))
     companyRepository.findCompanyByName.mockResolvedValueOnce(company)
 
     const promise = sut.create({ company: newCompany })

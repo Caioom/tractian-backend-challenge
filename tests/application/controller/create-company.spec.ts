@@ -1,24 +1,21 @@
 import { CreateCompany } from '@/domain/feature'
 import { User } from '@/domain/models'
 import { CreateCompanyController } from '@/application/controller'
-import { CreateUser } from '@/data/contracts'
 
 import { MockProxy, mock } from 'jest-mock-extended'
 
 describe('CreateCompanyController', () => {
   let createCompany: MockProxy<CreateCompany>
-  let createUser: MockProxy<CreateUser>
   let user: User
   let sut: CreateCompanyController
 
   beforeAll(() => {
     createCompany = mock()
-    createUser = mock()
   })
 
   beforeEach(() => {
     user = { name: 'any_username' }
-    sut = new CreateCompanyController(createCompany, createUser)
+    sut = new CreateCompanyController(createCompany)
   })
 
   it('should not insert a company with an empty name', async () => {
@@ -67,14 +64,5 @@ describe('CreateCompanyController', () => {
       statusCode: '200',
       message: 'ok'
     })
-  })
-
-  it('should call when CreateCompany succeed CreateUser with correct params', async () => {
-    createCompany.create.mockResolvedValue('1')
-
-    await sut.handler({ company_name: 'any_company_name', user, units: []})
-
-    user.companyId = '1'
-    expect(createUser.create).toHaveBeenCalledWith({ user })
   })
 })
